@@ -161,7 +161,7 @@ static void fixup_debug_report(struct pci_dev *dev, ktime_t calltime,
 		pci_info(dev, "%pS took %lld usecs\n", fn, duration);
 }
 
-/* Pre-size ReBAR for NVIDIA GB202 (RTX 5090) so bridge sizing sees it */
+/* Pre-size ReBAR for NVIDIA GB202 (RTX 5090) and AD102 (RTX 4090) so bridge sizing sees it */
 static void quirk_presize_rebar_nvidia_gb202(struct pci_dev *dev)
 {
         int bar = 1;               /* NVIDIA FB aperture */
@@ -192,6 +192,8 @@ static void quirk_presize_rebar_nvidia_gb202(struct pci_dev *dev)
 }
 DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x2b85, quirk_presize_rebar_nvidia_gb202);
 DECLARE_PCI_FIXUP_RESUME_EARLY(PCI_VENDOR_ID_NVIDIA, 0x2b85, quirk_presize_rebar_nvidia_gb202);
+DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x2684, quirk_presize_rebar_nvidia_gb202);
+DECLARE_PCI_FIXUP_RESUME_EARLY(PCI_VENDOR_ID_NVIDIA, 0x2684, quirk_presize_rebar_nvidia_gb202);
 
 /* ==== LAB: free 32-bit NP budget ASAP (EARLY + HEADER) ==== */
 static bool lab_bdf(struct pci_dev *d, u8 seg, u8 bus, u8 slot, u8 func)
